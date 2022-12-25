@@ -30,10 +30,10 @@ def read_file():
 
 
 def create_GUI():
-    action_button_label = Label(screen, text="Upload c++ code")
+    action_button_label = Label(screen, text="Upload tiny code code")
     action_button_label.grid(row=0, column=0, padx=10)
 
-    action_button = Button(screen, text="Choose c++ file", command=lambda: read_file())
+    action_button = Button(screen, text="Choose tiny code file", command=lambda: read_file())
     action_button.grid(row=0, column=1)
 
     uploded_filename_label = Label(screen, text=f"Uploded filename :")
