@@ -6,8 +6,7 @@ import tokens_scanner as src
 outputs = []
 iterator = 0
 Nodes = []
-Parents = []
-Parents.append(0)
+Parents = [0]
 currentnode = 1
 connectParent = True
 
@@ -24,10 +23,7 @@ class node:
     def is_statment(self):
         statment = ["if","repeat","assign","read","write"]
         splitted = self.value.split("\n")
-        for token in splitted:
-            if(token in statment):
-                return True
-        return False
+        return any((token in statment) for token in splitted)
     def getvalue(self):
         return self.Node
 def match(expectedtoken):
@@ -44,34 +40,31 @@ def stmtsequence():
     global iterator,connectParent
     connectParent = True
     statment()
-    while( outputs[iterator].tokenvalue==';'):
-        connectParent = False
+    connectParent = False
+    while ( outputs[iterator].tokenvalue==';'):
         match(";")
         statment()
 def statment():
     global iterator,currentnode,connectParen
-    if(len(outputs)):
+    if (len(outputs)):
         newnode = node(outputs[iterator].tokenvalue,currentnode, Parents[-1])
         newnode.connectParent =connectParent
         Nodes.append(newnode)
         currentnode = newnode.getvalue() + 1
         Parents.append(newnode.getvalue())
-        if(outputs[iterator].tokenvalue=="if"):
+        if (outputs[iterator].tokenvalue=="if"):
             if_stmt()
-            Parents.pop()
-        elif(outputs[iterator].tokenvalue=="repeat"):
+        elif (outputs[iterator].tokenvalue=="repeat"):
             repeat_stmt()
-            Parents.pop()
-        elif(outputs[iterator].tokenvalue=="read"):
+        elif (outputs[iterator].tokenvalue=="read"):
             read_stmt()
-            Parents.pop()
-        elif(outputs[iterator].tokenvalue=="write"):
+        elif (outputs[iterator].tokenvalue=="write"):
             write_stmt()
-            Parents.pop()
         else:
             Nodes[-1].value = "assign\n(" + outputs[iterator].tokenvalue + ")"
             assign_stmt()
-            Parents.pop()
+
+        Parents.pop()
 def if_stmt():
     global iterator,currentnode
     match("if")

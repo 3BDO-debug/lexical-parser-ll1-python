@@ -36,7 +36,7 @@ def create_GUI():
     action_button = Button(screen, text="Choose tiny code file", command=lambda: read_file())
     action_button.grid(row=0, column=1)
 
-    uploded_filename_label = Label(screen, text=f"Uploded filename :")
+    uploded_filename_label = Label(screen, text="Uploded filename :")
     uploded_filename_label.grid(
         row=10,
         column=0,
