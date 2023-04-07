@@ -7,40 +7,19 @@ class token:
         self.tokentype = tokentype
         self.tokenvalue = tokenvalue
     def is_ID(self):
-        if(self.tokentype=="ID"):
-            return True
-        else:
-            return False
+        return self.tokentype == "ID"
     def is_NUM(self):
-        if(self.tokentype=="NUM"):
-            return True
-        else:
-            return False
+        return self.tokentype == "NUM"
     def is_reservedword(self):
-        if(self.tokentype=="reserved words"):
-            return True
-        else:
-            return False
+        return self.tokentype == "reserved words"
     def is_terminator(self):
-        if(self.tokenvalue==";"):
-            return True
-        else:
-            return False
+        return self.tokenvalue == ";"
     def iscomparison(self):
-        if((self.tokenvalue=='<')or(self.tokenvalue=='=')):
-            return True
-        else:
-            return False
+        return self.tokenvalue in ['<', '=']
     def isaddop(self):
-        if((self.tokenvalue=='+')or(self.tokenvalue=='-')):
-            return True
-        else:
-            return False
+        return self.tokenvalue in ['+', '-']
     def ismulop(self):
-        if((self.tokenvalue=='*')or(self.tokenvalue=='/')):
-            return True
-        else:
-            return False
+        return self.tokenvalue in ['*', '/']
 def scanner(given_lines):
     lines = [s.rstrip() for s in given_lines]
     lines = [s.lstrip() for s in lines]
@@ -49,9 +28,9 @@ def scanner(given_lines):
     currentstate='start'
     currenttoken=""
     for line in lines:
-        for char in (line+' '):
-            if(char.isalnum)or (char in reservedwords):
-                if(currentstate=='start'):
+        for char in f'{line} ':
+            if (char.isalnum)or (char in reservedwords):
+                if (currentstate=='start'):
                     if(char=='{'):
                         currentstate='Incomment'
                     elif(char==':'):
@@ -91,17 +70,16 @@ def scanner(given_lines):
                             currentstate='start'
                             mytoken = token(char,"special symbols")
                             outputs.append(mytoken)
-                elif(currentstate=='Inid'):
-                    if(char.isdigit() or char.isalpha()): 
-                         currenttoken+=(char)
+                elif (currentstate=='Inid'):
+                    if (char.isdigit() or char.isalpha()): 
+                        currenttoken+=(char)
                     else:
                         currenttoken=''.join(currenttoken)
-                        if(currenttoken in reservedwords):
+                        if (currenttoken in reservedwords):
                             mytoken = token(currenttoken,"reserved words")
-                            outputs.append(mytoken)
                         else:
                             mytoken = token(currenttoken,"ID")
-                            outputs.append(mytoken)
+                        outputs.append(mytoken)
                         currenttoken=""
                         currentstate='start'
                         if(char==':'):
@@ -114,7 +92,7 @@ def scanner(given_lines):
                 elif(char in specialsymbols):
                         currentstate='start'
                         mytoken = token(char,"special symbols")
-                        outputs.append(mytoken) 
+                        outputs.append(mytoken)
     for tok in outputs:
         print("Token value", tok.tokentype)
         print('Token type', tok.tokenvalue)
